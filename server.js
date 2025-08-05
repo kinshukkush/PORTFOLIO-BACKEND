@@ -50,10 +50,6 @@ const contactSchema = new mongoose.Schema({
 
 const Contact = mongoose.model('Contact', contactSchema);
 
-// --- Nodemailer Transporter Setup ---
-// This transporter uses Gmail. You'll need to set up an "App Password"
-// for your Google Account if you have 2-Step Verification enabled.
-// CORRECTED LINE: The function is createTransport, not createTransporter
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
