@@ -56,7 +56,7 @@ app.post("/api/contact", async (req, res) => {
 
     // ✅ Email to Admin
     await resend.emails.send({
-      from: "Kinshuk Portfolio <kinshuksaxena3@gmail.com>",
+      from: "Kinshuk Portfolio <onboarding@resend.dev>",
       to: "kinshuksaxena3@gmail.com",
       subject: `🔔 New Contact Form: ${subject || "No Subject"}`,
       html: `
@@ -150,7 +150,7 @@ app.post("/api/contact", async (req, res) => {
 
     // ✅ Auto-reply to user
     await resend.emails.send({
-      from: "Kinshuk Saxena <kinshuksaxena3@gmail.com>",
+      from: "Kinshuk Saxena <onboarding@resend.dev>",
       to: email,
       subject: "✅ Thank you for reaching out!",
       html: `
