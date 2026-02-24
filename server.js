@@ -423,7 +423,7 @@ app.post("/api/contact", async (req, res) => {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     try {
       await resend.emails.send({
-      from: "Kinshuk Portfolio <onboarding@resend.dev>",
+      from: "Kinshuk Portfolio <noreply@kinshuk.unaux.com>",
       to: "kinshuksaxena3@gmail.com",
       subject: `🔔 New Contact Form: ${subject || "No Subject"}`,
       html: `
@@ -726,9 +726,12 @@ app.post("/api/contact", async (req, res) => {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     try {
       console.log(`📤 Sending auto-reply to: ${email}`);
+      console.log(`📧 Using from address: noreply@kinshuk.unaux.com`);
+      
       const userEmailResult = await resend.emails.send({
-      from: "Kinshuk Saxena <onboarding@resend.dev>",
+      from: "Kinshuk Saxena <noreply@kinshuk.unaux.com>",
       to: email,
+      reply_to: "kinshuksaxena3@gmail.com",
       subject: "✅ Got your message — I'll be in touch soon!",
       html: `
 <!DOCTYPE html>
