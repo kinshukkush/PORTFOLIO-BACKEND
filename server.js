@@ -1015,6 +1015,12 @@ app.post("/api/contact", async (req, res) => {
           </tr>
 
         </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
+      `,
       });
       console.log(`✅ Auto-reply sent to ${email} via Resend.`);
       console.log(`📨 Email ID: ${userEmailResult.id}`);
@@ -1024,12 +1030,6 @@ app.post("/api/contact", async (req, res) => {
       console.error("❌ Error details:", JSON.stringify(userEmailError, null, 2));
       // Don't fail the entire request if user email fails
     }
-  </table>
-</body>
-</html>
-      `,
-    });
-    console.log(`✅ Auto-reply sent to ${email} via Resend.`);
 
     res.status(200).json({
       success: true,
