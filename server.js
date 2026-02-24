@@ -407,6 +407,7 @@ app.post("/api/contact", async (req, res) => {
 
     await newContact.save();
     console.log("✅ Contact form data saved to database.");
+    console.log(`📧 Preparing to send emails to admin and user (${email})`);
 
     const receivedAt = new Date().toLocaleDateString("en-US", {
       weekday: "long",
@@ -420,7 +421,8 @@ app.post("/api/contact", async (req, res) => {
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // ✅ EMAIL TO ADMIN — Premium Dark Theme
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    await resend.emails.send({
+    try {
+      await resend.emails.send({
       from: "Kinshuk Portfolio <onboarding@resend.dev>",
       to: "kinshuksaxena3@gmail.com",
       subject: `🔔 New Contact Form: ${subject || "No Subject"}`,
@@ -712,13 +714,19 @@ app.post("/api/contact", async (req, res) => {
 </body>
 </html>
       `,
-    });
-    console.log("✅ Notification email sent to admin via Resend.");
+      });
+      console.log("✅ Notification email sent to admin via Resend.");
+    } catch (adminEmailError) {
+      console.error("❌ Error sending admin email:", adminEmailError);
+      // Continue to send user email even if admin email fails
+    }
 
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
     // ✅ AUTO-REPLY TO USER — Premium Green Theme
     // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-    await resend.emails.send({
+    try {
+      console.log(`📤 Sending auto-reply to: ${email}`);
+      const userEmailResult = await resend.emails.send({
       from: "Kinshuk Saxena <onboarding@resend.dev>",
       to: email,
       subject: "✅ Got your message — I'll be in touch soon!",
@@ -1007,8 +1015,15 @@ app.post("/api/contact", async (req, res) => {
           </tr>
 
         </table>
-      </td>
-    </tr>
+      });
+      console.log(`✅ Auto-reply sent to ${email} via Resend.`);
+      console.log(`📨 Email ID: ${userEmailResult.id}`);
+    } catch (userEmailError) {
+      console.error("❌ Error sending auto-reply email:", userEmailError);
+      console.error("❌ Failed to send to:", email);
+      console.error("❌ Error details:", JSON.stringify(userEmailError, null, 2));
+      // Don't fail the entire request if user email fails
+    }
   </table>
 </body>
 </html>
